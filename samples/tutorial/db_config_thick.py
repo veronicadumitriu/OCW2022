@@ -1,3 +1,4 @@
+
 # ------------------------------------------------------------------------------
 # Copyright (c) 2022, Oracle and/or its affiliates.
 #
@@ -27,6 +28,18 @@ import platform
 import os
 import getpass
 
+user = os.environ.get("PYTHON_USER", "pythondemo")
+config_dir = os.environ.get("CONFIG_DIR")
+dsn = os.environ.get("DSN_ADB")
+wallet_location = os.environ.get("WALLET_LOCATION")
+wallet_password = os.environ.get("WALLET_PASSWORD")
+pw = os.environ.get("PYTHON_PASSWORD")
+if pw is None:
+    pw = getpass.getpass("Enter password for %s: " % user)
+
+if wallet_password is None:
+    wallet_password = getpass.getpass("Enter password for the Wallet: ")
+
 ######################################################################
 
 #
@@ -49,28 +62,7 @@ if platform.system() == "Darwin":
     instant_client_dir = os.environ.get("HOME")+"/Downloads/instantclient_19_8"
 
 # You must always call init_oracle_client() to use thick mode in any platform
-oracledb.init_oracle_client(lib_dir=instant_client_dir)
+oracledb.init_oracle_client(lib_dir=instant_client_dir,config_dir=config_dir)
 
 ######################################################################
 
-#
-# Tutorial credentials and connection string.
-# Environment variable values are used, if they are defined.
-#
-
-user = os.environ.get("PYTHON_USER", "pythondemo")
-
-#dsn = os.environ.get("PYTHON_CONNECT_STRING", "localhost/orclpdb")
-dsn="db20220721220247_high"
-
-config_dir = "/home/veronica_d/Wallets"
-
-wallet_location = "/home/veronica_d/Wallets"
-wallet_password = os.environ.get("Wallet_Password")
-
-pw = os.environ.get("PYTHON_PASSWORD")
-if pw is None:
-    pw = getpass.getpass("Enter password for %s: " % user)
-
-if wallet_password is None:
-    wallet_password = getpass.getpass("Enter password for the Wallet: ")
